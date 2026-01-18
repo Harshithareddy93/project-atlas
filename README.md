@@ -1,4 +1,6 @@
-\# Project Atlas
+\# Project Atlas CI/CD System
+
+
 
 
 
@@ -18,7 +20,5 @@ Project Atlas is a demo application to build a complete CI/CD pipeline using:
 
 This project is created as part of a DevOps engineering capstone.
 
-Tax calculation module under development.
-
-
+Payment gateway integration completed.
 
