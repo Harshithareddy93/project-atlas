@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'
+        maven 'maven'
         jdk 'JDK17'
     }
 
@@ -10,26 +10,28 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Harshithareddy93/project-atlas.git'
+                echo 'Source code checked out from GitHub'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                echo 'Building project using Maven'
+                sh 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
+                echo 'Running unit tests'
                 sh 'mvn test'
             }
         }
 
-        stage('Archive') {
+        stage('Package') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                echo 'Packaging application'
+                sh 'mvn package'
             }
         }
     }
