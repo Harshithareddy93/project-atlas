@@ -7,7 +7,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo 'Source code checked out from GitHub'
@@ -17,13 +16,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building project using Maven'
+                sh 'mvn -v'
                 sh 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running unit tests'
+                echo 'Running tests'
                 sh 'mvn test'
             }
         }
