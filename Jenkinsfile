@@ -1,36 +1,37 @@
 pipeline {
     agent any
-tools {
-    jdk 'JDK21'
-    maven 'maven'
-}
+
+    tools {
+        maven 'Maven'
+        jdk 'JDK17'
+    }
 
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Source code checked out from GitHub'
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building project using Maven'
-                sh 'mvn -v'
-                sh 'mvn clean compile'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
-        stage('Test') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Running tests'
-                sh 'mvn test'
+                sh 'docker build -t project-atlas:latest .'
             }
         }
 
-        stage('Package') {
+        stage('Deploy Container') {
             steps {
-                echo 'Packaging application'
-                sh 'mvn package'
+                sh '''
+                docker rm -f project-atlas-app || true
+                docker run -d -p 8081:8080 --name project-atlas-app project-atlas:latest
+                '''
             }
         }
     }
